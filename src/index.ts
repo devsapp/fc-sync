@@ -4,6 +4,7 @@ import { InputProps, ICredentials } from './common/entity';
 import * as core from '@serverless-devs/core';
 import * as _ from 'lodash';
 import FcSync from './lib/fc-sync';
+import help from './lib/help';
 
 export default class FcSyncComponent extends BaseComponent {
   constructor(props) {
@@ -33,6 +34,9 @@ export default class FcSyncComponent extends BaseComponent {
     // 将Args转成Object
     const argsData: any = comParse.data || {};
     const { region, access, type = 'all' } = argsData;
+    if (argsData.help) {
+      return { isHelp: true };
+    }
     const functionName: string = argsData['function-name'];
     const serviceName: string = argsData['service-name'];
     const triggerName: string = argsData['trigger-name'];
@@ -60,6 +64,10 @@ export default class FcSyncComponent extends BaseComponent {
   public async sync (inputs: InputProps): Promise<any> {
     const parsedArgs: any = this.argsParser(inputs?.args);
     logger.debug(`parsed args: ${JSON.stringify(parsedArgs)}`);
+    if (parsedArgs.isHelp) {
+      core.help(help);
+      return;
+    }
 
     const region: string = inputs?.props?.region || parsedArgs?.region;
     const functionName: string = inputs?.props?.functionName || parsedArgs?.functionName;

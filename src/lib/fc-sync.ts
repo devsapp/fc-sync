@@ -34,7 +34,7 @@ export default class FcSync {
     this.fcClient = new FC(credentials.AccountID, {
       accessKeyID: credentials.AccessKeyID,
       accessKeySecret: credentials.AccessKeySecret,
-      securityToken: credentials.stsToken,
+      securityToken: credentials.SecurityToken,
       region: this.region,
       timeout: DEFAULT_CLIENT_TIMEOUT * 1000,
     });
