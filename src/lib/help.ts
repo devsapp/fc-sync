@@ -36,11 +36,6 @@ export default [
         type: String,
       },
       {
-        name: 'trigger-name',
-        description: 'Pass in trigger name in cli mode',
-        type: String,
-      },
-      {
         name: 'help',
         description: 'Help for fc-sync.',
         alias: 'h',

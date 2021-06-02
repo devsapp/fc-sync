@@ -14,9 +14,9 @@ const checkFileExists = (filePath) => {
 const component = 'devsapp/fc';
 
 export default class WriteFile {
-  static async writeSYml(targetDir, config) {
+  static async writeSYml(targetDir, config, fileAffix?) {
     targetDir = path.resolve(targetDir);
-    const ymlPath = this.getYmlFilePath(targetDir);
+    const ymlPath = this.getYmlFilePath(targetDir, fileAffix);
 
     const ymlConfig = {};
     for (const props of config) {
@@ -36,13 +36,14 @@ export default class WriteFile {
     return ymlPath;
   }
 
-  static getYmlFilePath(targetDir) {
+  static getYmlFilePath(targetDir, fileAffix) {
     const sYml = path.join(targetDir, 's.yml');
     const sYaml = path.join(targetDir, 's.yaml');
     if (!(checkFileExists(sYml) || checkFileExists(sYaml))) {
       return sYaml;
     }
 
-    return path.join(targetDir, 's.sync.yaml');
+    const fileName = fileAffix ? `s.${fileAffix}.sync.yaml` : 's.sync.yaml';
+    return path.join(targetDir, fileName);
   }
 }

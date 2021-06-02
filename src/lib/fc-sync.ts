@@ -96,7 +96,7 @@ export default class FcSync {
 
     let configYmlPath;
     if (isSyncConfig) {
-      configYmlPath = await WriteFile.writeSYml(targetDir, configs);
+      configYmlPath = await WriteFile.writeSYml(targetDir, configs, `${this.region}-${serviceName}`);
     }
 
     return { configs, codeFiles, configYmlPath };

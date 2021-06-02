@@ -27,7 +27,7 @@ export default class FcSyncComponent extends BaseComponent {
   private argsParser(args: string) {
     const apts: any = {
       boolean: ['help'],
-      string: ['region', 'service-name', 'function-name', 'trigger-name', 'target-dir', 'type'],
+      string: ['region', 'service-name', 'function-name', 'target-dir', 'type'],
       alias: { 'help': 'h', 'access': 'a', 'region': 'r'},
     };
     const comParse: any = core.commandParse({ args }, apts);
@@ -39,16 +39,14 @@ export default class FcSyncComponent extends BaseComponent {
     }
     const functionName: string = argsData['function-name'];
     const serviceName: string = argsData['service-name'];
-    const triggerName: string = argsData['trigger-name'];
     const targetDir: string = argsData['target-dir']
     const isSyncCode: boolean = type === 'code' || type === 'all';
     const isSyncConfig: boolean = type === 'config' || type === 'all';
 
     return {
       region,
-      functionName,
       serviceName,
-      triggerName,
+      functionName,
       isSyncCode,
       isSyncConfig,
       targetDir,
@@ -69,24 +67,24 @@ export default class FcSyncComponent extends BaseComponent {
       return;
     }
 
-    const region: string = inputs?.props?.region || parsedArgs?.region;
-    const functionName: string = inputs?.props?.functionName || parsedArgs?.functionName;
-    const serviceName: string = inputs?.props?.serviceName || parsedArgs?.serviceName;
-    const targetDir: string = inputs?.props?.targetDir || parsedArgs?.targetDir;
     const access: string = inputs?.project?.access || parsedArgs?.access;
     const credential: ICredentials = await core.getCredential(access);
     this.report('fc-sync', 'sync', credential.AccountID, access);
-    const fcSync: any = new FcSync(credential, region);
 
-    const { isSyncCode, isSyncConfig } = parsedArgs;
+    if (!(parsedArgs.region && parsedArgs.serviceName)) {
+      parsedArgs.region = inputs?.props?.region;
+      parsedArgs.serviceName = inputs?.props?.serviceName;
+      parsedArgs.functionName = inputs?.props?.functionName;
+      parsedArgs.targetDir = inputs?.props?.targetDir || parsedArgs?.targetDir;
+    }
 
-    const { codeFiles, configYmlPath } = await fcSync.sync({
-      serviceName,
-      functionName,
-      targetDir,
-      isSyncCode,
-      isSyncConfig,
-    });
+    if (!(parsedArgs.region && parsedArgs.serviceName)) {
+      throw new Error('region/service-name required.');
+    }
+
+    const fcSync: any = new FcSync(credential, parsedArgs.region);
+
+    const { codeFiles, configYmlPath } = await fcSync.sync(parsedArgs);
     return {
       codeFiles,
       configYmlPath,
