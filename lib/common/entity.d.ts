@@ -1,6 +1,7 @@
 export interface ICredentials {
     AccountID?: string;
     AccessKeyID?: string;
+    SecurityToken?: string;
     AccessKeySecret?: string;
     SecretID?: string;
     SecretKey?: string;

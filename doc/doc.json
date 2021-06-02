@@ -56,7 +56,7 @@
 					}
 				},
 				{
-					"id": 25,
+					"id": 26,
 					"name": "client",
 					"kind": 1024,
 					"kindString": "Property",
@@ -80,7 +80,7 @@
 					}
 				},
 				{
-					"id": 26,
+					"id": 27,
 					"name": "inputs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -97,7 +97,7 @@
 					}
 				},
 				{
-					"id": 29,
+					"id": 30,
 					"name": "__doc",
 					"kind": 2048,
 					"kindString": "Method",
@@ -111,14 +111,14 @@
 					],
 					"signatures": [
 						{
-							"id": 30,
+							"id": 31,
 							"name": "__doc",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 31,
+									"id": 32,
 									"name": "projectName",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -147,7 +147,7 @@
 					}
 				},
 				{
-					"id": 27,
+					"id": 28,
 					"name": "__getBasePath",
 					"kind": 2048,
 					"kindString": "Method",
@@ -161,7 +161,7 @@
 					],
 					"signatures": [
 						{
-							"id": 28,
+							"id": 29,
 							"name": "__getBasePath",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -226,7 +226,7 @@
 									"flags": {},
 									"children": [
 										{
-											"id": 21,
+											"id": 22,
 											"name": "access",
 											"kind": 1024,
 											"kindString": "Property",
@@ -259,6 +259,17 @@
 											}
 										},
 										{
+											"id": 20,
+											"name": "isSyncConfig",
+											"kind": 1024,
+											"kindString": "Property",
+											"flags": {},
+											"type": {
+												"type": "intrinsic",
+												"name": "boolean"
+											}
+										},
+										{
 											"id": 15,
 											"name": "region",
 											"kind": 1024,
@@ -281,7 +292,7 @@
 											}
 										},
 										{
-											"id": 20,
+											"id": 21,
 											"name": "targetDir",
 											"kind": 1024,
 											"kindString": "Property",
@@ -308,12 +319,13 @@
 											"title": "Properties",
 											"kind": 1024,
 											"children": [
-												21,
+												22,
 												16,
 												19,
+												20,
 												15,
 												17,
-												20,
+												21,
 												18
 											]
 										}
@@ -409,7 +421,7 @@
 					]
 				},
 				{
-					"id": 22,
+					"id": 23,
 					"name": "sync",
 					"kind": 2048,
 					"kindString": "Method",
@@ -419,13 +431,13 @@
 					"sources": [
 						{
 							"fileName": "index.ts",
-							"line": 56,
+							"line": 60,
 							"character": 19
 						}
 					],
 					"signatures": [
 						{
-							"id": 23,
+							"id": 24,
 							"name": "sync",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -436,7 +448,7 @@
 							},
 							"parameters": [
 								{
-									"id": 24,
+									"id": 25,
 									"name": "inputs",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -474,19 +486,19 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						25,
-						26
+						26,
+						27
 					]
 				},
 				{
 					"title": "Methods",
 					"kind": 2048,
 					"children": [
-						29,
-						27,
+						30,
+						28,
 						11,
 						5,
-						22
+						23
 					]
 				}
 			],
