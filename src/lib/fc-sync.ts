@@ -114,10 +114,23 @@ export default class FcSync {
     if (!serviceConfig.vpcConfig?.vpcId) {
       delete serviceConfig.vpcConfig;
     } else {
+      serviceConfig.vpcConfig.vswitchIds = serviceConfig.vpcConfig.vSwitchIds;
       delete serviceConfig.vpcConfig.role;
+      delete serviceConfig.vpcConfig.vSwitchIds;
     }
     if (_.isEmpty(serviceConfig.nasConfig?.mountPoints)) {
       delete serviceConfig.nasConfig;
+    } else {
+      const { userId, groupId, mountPoints } = serviceConfig.nasConfig;
+
+      serviceConfig.nasConfig = {
+        userId, 
+        groupId,
+        mountPoints: mountPoints?.map((item) => {
+          const [serverAddr, nasDir] = item.serverAddr.split(':');
+          return { serverAddr, nasDir, fcDir: item.mountDir };
+        })
+      };
     }
     if (_.isEmpty(serviceConfig.tracingConfig)) {
       delete serviceConfig.tracingConfig;

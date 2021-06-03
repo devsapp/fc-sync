@@ -56,7 +56,7 @@
 					}
 				},
 				{
-					"id": 26,
+					"id": 35,
 					"name": "client",
 					"kind": 1024,
 					"kindString": "Property",
@@ -80,7 +80,7 @@
 					}
 				},
 				{
-					"id": 27,
+					"id": 36,
 					"name": "inputs",
 					"kind": 1024,
 					"kindString": "Property",
@@ -97,7 +97,7 @@
 					}
 				},
 				{
-					"id": 30,
+					"id": 39,
 					"name": "__doc",
 					"kind": 2048,
 					"kindString": "Method",
@@ -111,14 +111,14 @@
 					],
 					"signatures": [
 						{
-							"id": 31,
+							"id": 40,
 							"name": "__doc",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 32,
+									"id": 41,
 									"name": "projectName",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -147,7 +147,7 @@
 					}
 				},
 				{
-					"id": 28,
+					"id": 37,
 					"name": "__getBasePath",
 					"kind": 2048,
 					"kindString": "Method",
@@ -161,7 +161,7 @@
 					],
 					"signatures": [
 						{
-							"id": 29,
+							"id": 38,
 							"name": "__getBasePath",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -192,7 +192,7 @@
 					"sources": [
 						{
 							"fileName": "index.ts",
-							"line": 26,
+							"line": 27,
 							"character": 20
 						}
 					],
@@ -217,120 +217,243 @@
 								}
 							],
 							"type": {
-								"type": "reflection",
-								"declaration": {
-									"id": 14,
-									"name": "__type",
-									"kind": 65536,
-									"kindString": "Type literal",
-									"flags": {},
-									"children": [
-										{
-											"id": 22,
-											"name": "access",
-											"kind": 1024,
-											"kindString": "Property",
+								"type": "union",
+								"types": [
+									{
+										"type": "reflection",
+										"declaration": {
+											"id": 14,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
 											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "any"
-											}
-										},
-										{
-											"id": 16,
-											"name": "functionName",
-											"kind": 1024,
-											"kindString": "Property",
-											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "string"
-											}
-										},
-										{
-											"id": 19,
-											"name": "isSyncCode",
-											"kind": 1024,
-											"kindString": "Property",
-											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "boolean"
-											}
-										},
-										{
-											"id": 20,
-											"name": "isSyncConfig",
-											"kind": 1024,
-											"kindString": "Property",
-											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "boolean"
-											}
-										},
-										{
-											"id": 15,
-											"name": "region",
-											"kind": 1024,
-											"kindString": "Property",
-											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "any"
-											}
-										},
-										{
-											"id": 17,
-											"name": "serviceName",
-											"kind": 1024,
-											"kindString": "Property",
-											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "string"
-											}
-										},
-										{
-											"id": 21,
-											"name": "targetDir",
-											"kind": 1024,
-											"kindString": "Property",
-											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "string"
-											}
-										},
-										{
-											"id": 18,
-											"name": "triggerName",
-											"kind": 1024,
-											"kindString": "Property",
-											"flags": {},
-											"type": {
-												"type": "intrinsic",
-												"name": "string"
-											}
-										}
-									],
-									"groups": [
-										{
-											"title": "Properties",
-											"kind": 1024,
 											"children": [
-												22,
-												16,
-												19,
-												20,
-												15,
-												17,
-												21,
-												18
+												{
+													"id": 22,
+													"name": "access",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 18,
+													"name": "functionName",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 15,
+													"name": "isHelp",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "boolean"
+													},
+													"defaultValue": "true"
+												},
+												{
+													"id": 19,
+													"name": "isSyncCode",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 20,
+													"name": "isSyncConfig",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 16,
+													"name": "region",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 17,
+													"name": "serviceName",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 21,
+													"name": "targetDir",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"kind": 1024,
+													"children": [
+														22,
+														18,
+														15,
+														19,
+														20,
+														16,
+														17,
+														21
+													]
+												}
 											]
 										}
-									]
-								}
+									},
+									{
+										"type": "reflection",
+										"declaration": {
+											"id": 23,
+											"name": "__type",
+											"kind": 65536,
+											"kindString": "Type literal",
+											"flags": {},
+											"children": [
+												{
+													"id": 30,
+													"name": "access",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												},
+												{
+													"id": 26,
+													"name": "functionName",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												},
+												{
+													"id": 31,
+													"name": "isHelp",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													},
+													"defaultValue": "true"
+												},
+												{
+													"id": 27,
+													"name": "isSyncCode",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "boolean"
+													}
+												},
+												{
+													"id": 28,
+													"name": "isSyncConfig",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "boolean"
+													}
+												},
+												{
+													"id": 24,
+													"name": "region",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "any"
+													}
+												},
+												{
+													"id": 25,
+													"name": "serviceName",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												},
+												{
+													"id": 29,
+													"name": "targetDir",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "string"
+													}
+												}
+											],
+											"groups": [
+												{
+													"title": "Properties",
+													"kind": 1024,
+													"children": [
+														30,
+														26,
+														31,
+														27,
+														28,
+														24,
+														25,
+														29
+													]
+												}
+											]
+										}
+									}
+								]
 							}
 						}
 					]
@@ -346,7 +469,7 @@
 					"sources": [
 						{
 							"fileName": "index.ts",
-							"line": 13,
+							"line": 14,
 							"character": 22
 						}
 					],
@@ -421,7 +544,7 @@
 					]
 				},
 				{
-					"id": 23,
+					"id": 32,
 					"name": "sync",
 					"kind": 2048,
 					"kindString": "Method",
@@ -431,13 +554,13 @@
 					"sources": [
 						{
 							"fileName": "index.ts",
-							"line": 60,
+							"line": 62,
 							"character": 19
 						}
 					],
 					"signatures": [
 						{
-							"id": 24,
+							"id": 33,
 							"name": "sync",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -448,7 +571,7 @@
 							},
 							"parameters": [
 								{
-									"id": 25,
+									"id": 34,
 									"name": "inputs",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -486,26 +609,26 @@
 					"title": "Properties",
 					"kind": 1024,
 					"children": [
-						26,
-						27
+						35,
+						36
 					]
 				},
 				{
 					"title": "Methods",
 					"kind": 2048,
 					"children": [
-						30,
-						28,
+						39,
+						37,
 						11,
 						5,
-						23
+						32
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "index.ts",
-					"line": 8,
+					"line": 9,
 					"character": 36
 				}
 			],
