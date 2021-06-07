@@ -13,7 +13,9 @@ export default class FcSync {
     private region;
     private credentials;
     constructor(credentials: ICredentials, region: any);
-    sync(syncInputs: ISync): Promise<{
+    sync(syncInputs: ISync, { force }: {
+        force: any;
+    }): Promise<{
         configs: any[];
         codeFiles: {};
         configYmlPath: any;
@@ -25,7 +27,7 @@ export default class FcSync {
         serviceName: any;
         functionName: any;
     }): Promise<any[]>;
-    syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string): Promise<string>;
+    syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string, force: boolean): Promise<string>;
     asyncTrigger({ serviceName, functionName, }: {
         serviceName: any;
         functionName: any;
