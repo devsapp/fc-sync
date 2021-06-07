@@ -7,8 +7,8 @@ export default class ComponentLogger {
     static setContent(content) {
         ComponentLogger.CONTENT = content;
     }
-    static log(m) {
-        Logger.log(i18n.__(m) || m);
+    static log(m, color?) {
+        Logger.log(i18n.__(m) || m, color);
     }
     static info(m) {
         Logger.info(ComponentLogger.CONTENT, i18n.__(m) || m);

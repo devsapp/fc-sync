@@ -1,7 +1,7 @@
 export default [
   {
-    header: 'Sync',
-    content: 'Sync',
+    header: 'Description',
+    content: 'Online configuration or code download to local',
   },
   {
     header: 'Usage',
@@ -21,6 +21,12 @@ export default [
         type: Boolean,
       },
       {
+        name: 'force',
+        description: 'Mandatory overwrite code file',
+        alias: 'f',
+        type: Boolean,
+      },
+      {
         name: 'region',
         description: 'Pass in region in cli mode',
         type: String,
@@ -35,12 +41,6 @@ export default [
         description: 'Pass in function name in cli mode',
         type: String,
       },
-      {
-        name: 'help',
-        description: 'Help for fc-sync.',
-        alias: 'h',
-        type: Boolean,
-      },
     ],
   },
   {
@@ -52,10 +52,22 @@ export default [
         alias: 'a',
         type: Boolean,
       },
+      {
+        name: 'help',
+        description: 'fc-sync help for command.',
+        alias: 'h',
+        type: Boolean,
+      },
     ],
   },
   {
-    header: 'CLI Examples',
+    header: 'Examples with Yaml',
+    content: [
+      '$ s exec -- fc-sync --type all',
+    ],
+  },
+  {
+    header: 'Examples with CLI',
     content: [
       '$ s cli fc-sync --region * --service-name * --type all',
     ],

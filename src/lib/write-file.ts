@@ -1,16 +1,8 @@
 import * as fse from 'fs-extra';
 import * as path from 'path';
 import yaml from 'js-yaml';
+import { checkFileExists } from './utils';
 
-const checkFileExists = (filePath) => {
-  try {
-    if (fse.statSync(filePath).isFile()) {
-      return true;
-    }
-  // @ts-ignore
-  } catch(ex) {}
-  return false;
-}
 const component = 'devsapp/fc';
 
 export default class WriteFile {

@@ -26,14 +26,14 @@ export default class FcSyncComponent extends BaseComponent {
 
   private argsParser(args: string) {
     const apts: any = {
-      boolean: ['help'],
+      boolean: ['help', 'force'],
       string: ['region', 'service-name', 'function-name', 'target-dir', 'type'],
-      alias: { 'help': 'h', 'access': 'a', 'region': 'r'},
+      alias: { 'help': 'h', 'access': 'a', 'force': 'f' },
     };
     const comParse: any = core.commandParse({ args }, apts);
     // 将Args转成Object
     const argsData: any = comParse.data || {};
-    const { region, access, type = 'all' } = argsData;
+    const { region, access, type = 'all', force } = argsData;
     if (argsData.help) {
       return { isHelp: true };
     }
@@ -44,6 +44,7 @@ export default class FcSyncComponent extends BaseComponent {
     const isSyncConfig: boolean = type === 'config' || type === 'all';
 
     return {
+      force,
       region,
       serviceName,
       functionName,
@@ -84,7 +85,7 @@ export default class FcSyncComponent extends BaseComponent {
 
     const fcSync: any = new FcSync(credential, parsedArgs.region);
 
-    const { codeFiles, configYmlPath } = await fcSync.sync(parsedArgs);
+    const { codeFiles, configYmlPath } = await fcSync.sync(parsedArgs, { force: parsedArgs.force });
     return {
       codeFiles,
       configYmlPath,

@@ -6,6 +6,7 @@ import * as fse from 'fs-extra';
 import * as core from '@serverless-devs/core';
 import logger from '../common/logger';
 import WriteFile from './write-file';
+import { checkDirExists } from './utils';
 
 const DEFAULT_CLIENT_TIMEOUT: number = 300;
 const DEFAULT_SYNC_CODE_TARGET_DIR: string = process.cwd();
@@ -40,7 +41,7 @@ export default class FcSync {
     });
   }
 
-  async sync(syncInputs: ISync) {
+  async sync(syncInputs: ISync, { force }) {
     logger.debug(`sync inputs is: ${JSON.stringify(syncInputs)}`);
     const {
       serviceName,
@@ -67,7 +68,7 @@ export default class FcSync {
         const funcName = func.functionName;
   
         if (isSyncCode) {
-          codeFiles[funcName] = await this.syncCode(serviceName, funcName, targetDir);
+          codeFiles[funcName] = await this.syncCode(serviceName, funcName, targetDir, force);
         }
   
         if (isSyncConfig) {
@@ -97,6 +98,7 @@ export default class FcSync {
     let configYmlPath;
     if (isSyncConfig) {
       configYmlPath = await WriteFile.writeSYml(targetDir, configs, `${this.region}-${serviceName}`);
+      logger.log(`You can deploy the latest configuration of your sync through the [s exec -t ${configYmlPath} -- sync] command.`, 'blue');
     }
 
     return { configs, codeFiles, configYmlPath };
@@ -149,17 +151,31 @@ export default class FcSync {
     return await this.nextListData('listFunctions', 'functions', [serviceName]);
   }
 
-  async syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string): Promise<string> {
+  async syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string, force: boolean): Promise<string> {
     const targetDir = path.resolve(codeZipFileTargetDir);
+    const codeDir = path.join(targetDir, `${this.credentials.AccountID}_${this.region}_${serviceName}_${functionName}`);
+
+    if (checkDirExists(codeDir)) {
+      if (!force) {
+        throw new Error(`The folder ${codeDir} already exists, please specify -f/--force if it is forcibly overwritten.`);
+      }
+    } else {
+      await fse.ensureDir(codeDir);
+    }
+    
     const { data } = await this.fcClient.getFunctionCode(serviceName, functionName);
     const { url } = data;
     const codeZipFileName: string = `${this.credentials.AccountID}_${this.region}_${serviceName}_${functionName}.zip`;
-    await fse.ensureDir(targetDir);
-    logger.info(`sync code to ${targetDir}`);
-    // 下载 code zip file
-    await core.downloadRequest(url, targetDir, { filename: codeZipFileName, extract: false });
 
-    return path.join(targetDir, codeZipFileName);
+    logger.info(`sync code to ${codeDir}`);
+    
+    // 下载 code zip file
+    await core.downloadRequest(url, codeDir, { filename: codeZipFileName, extract: false });
+
+    const zipFileUri = path.join(codeDir, codeZipFileName);
+    await core.unzip(zipFileUri, codeDir);
+    await fse.remove(zipFileUri);
+    return codeDir;
   }
 
   async asyncTrigger({
