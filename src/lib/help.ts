@@ -1,11 +1,11 @@
 export default [
   {
-    header: 'Description',
-    content: 'Online configuration or code download to local',
+    header: 'Sync',
+    content: 'Synchronize online resources to offline resources.',
   },
   {
     header: 'Usage',
-    content: '$ fc-sync sync <options>',
+    content: '$ s sync <options>',
   },
   {
     header: 'Options',
@@ -28,17 +28,17 @@ export default [
       },
       {
         name: 'region',
-        description: 'Pass in region in cli mode',
+        description: 'Specify region in cli mode',
         type: String,
       },
       {
         name: 'service-name',
-        description: 'Pass in service name in cli mode',
+        description: 'Specify service name in cli mode',
         type: String,
       },
       {
         name: 'function-name',
-        description: 'Pass in function name in cli mode',
+        description: 'Specify function name in cli mode',
         type: String,
       },
     ],
@@ -63,13 +63,16 @@ export default [
   {
     header: 'Examples with Yaml',
     content: [
-      '$ s exec -- fc-sync --type all',
+      '$ s sync',
+      '$ s <ProjectName> sync',
+      '$ s sync --region cn-hangzhou --service-name myService',
+      '$ s exec -- sync  --region cn-hangzhou --service-name myService',
     ],
   },
   {
     header: 'Examples with CLI',
     content: [
-      '$ s cli fc-sync --region * --service-name * --type all',
+      '$ s cli fc sync --region cn-shanghai --service-name myService --type config',
     ],
   },
 ];
