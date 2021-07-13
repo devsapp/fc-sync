@@ -6,6 +6,8 @@ import { checkFileExists } from './utils';
 const component = 'devsapp/fc';
 
 export default class WriteFile {
+  static access: string;
+
   static async writeSYml(targetDir, config, fileAffix?) {
     targetDir = path.resolve(targetDir);
     const ymlPath = this.getYmlFilePath(targetDir, fileAffix);
@@ -20,6 +22,7 @@ export default class WriteFile {
     const configStr = yaml.dump({
       edition: '1.0.0',
       name: 'compoent-test',
+      access: this.access,
       services: JSON.parse(JSON.stringify(ymlConfig)),
     });
 

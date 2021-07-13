@@ -4,6 +4,7 @@ import { InputProps, ICredentials } from './common/entity';
 import * as core from '@serverless-devs/core';
 import * as _ from 'lodash';
 import FcSync from './lib/fc-sync';
+import WriteFile from './lib/write-file';
 import help from './lib/help';
 
 export default class FcSyncComponent extends BaseComponent {
@@ -69,6 +70,7 @@ export default class FcSyncComponent extends BaseComponent {
     }
 
     const access: string = inputs?.project?.access || parsedArgs?.access;
+    WriteFile.access = access;
     const credential: ICredentials = await core.getCredential(access);
     this.report('fc-sync', 'sync', credential.AccountID, access);
 
