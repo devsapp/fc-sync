@@ -12,6 +12,54 @@ export default class FcSyncComponent extends BaseComponent {
     super(props)
   }
 
+  /**
+   * demo 实例
+   * @param inputs
+   * @returns
+   */
+  async sync (inputs: InputProps): Promise<any> {
+    const parsedArgs: any = this.argsParser(inputs?.args);
+    logger.debug(`parsed args: ${JSON.stringify(parsedArgs)}`);
+    if (parsedArgs.isHelp) {
+      core.help(help);
+      return;
+    }
+
+    const access: string = inputs?.project?.access || parsedArgs?.access;
+    WriteFile.access = access;
+    const credential: ICredentials = await core.getCredential(access);
+    this.report('fc-sync', 'sync', credential.AccountID, access);
+
+    if (!(parsedArgs.region && parsedArgs.serviceName)) {
+      parsedArgs.region = inputs?.props?.region;
+      parsedArgs.serviceName = inputs?.props?.serviceName;
+      parsedArgs.functionName = inputs?.props?.functionName;
+      parsedArgs.targetDir = inputs?.props?.targetDir || parsedArgs?.targetDir;
+    }
+
+    if (!(parsedArgs.region && parsedArgs.serviceName)) {
+      throw new Error('region/service-name required.');
+    }
+
+    const endpoint = await this.getFcEndpoint();
+   
+    const fcSync: any = new FcSync(credential, parsedArgs.region, endpoint);
+
+    const { codeFiles, configYmlPath } = await fcSync.sync(parsedArgs, { force: parsedArgs.force });
+    return {
+      codeFiles,
+      configYmlPath,
+    }
+  }
+
+  private async getFcEndpoint(): Promise<string | undefined> {
+    const fcDefault = await core.loadComponent('devsapp/fc-default');
+    const fcEndpoint: string = await fcDefault.get({ args: 'fc-endpoint' });
+    if (!fcEndpoint) { return undefined; }
+    const enableFcEndpoint: any = await fcDefault.get({ args: 'enable-fc-endpoint' });
+    return (enableFcEndpoint === true || enableFcEndpoint === 'true') ? fcEndpoint : undefined;
+  }
+
   private async report(componentName: string, command: string, accountID?: string, access?: string): Promise<void> {
     let uid: string = accountID;
     if (_.isEmpty(accountID)) {
@@ -56,41 +104,4 @@ export default class FcSyncComponent extends BaseComponent {
     };
   }
 
-  /**
-   * demo 实例
-   * @param inputs
-   * @returns
-   */
-  public async sync (inputs: InputProps): Promise<any> {
-    const parsedArgs: any = this.argsParser(inputs?.args);
-    logger.debug(`parsed args: ${JSON.stringify(parsedArgs)}`);
-    if (parsedArgs.isHelp) {
-      core.help(help);
-      return;
-    }
-
-    const access: string = inputs?.project?.access || parsedArgs?.access;
-    WriteFile.access = access;
-    const credential: ICredentials = await core.getCredential(access);
-    this.report('fc-sync', 'sync', credential.AccountID, access);
-
-    if (!(parsedArgs.region && parsedArgs.serviceName)) {
-      parsedArgs.region = inputs?.props?.region;
-      parsedArgs.serviceName = inputs?.props?.serviceName;
-      parsedArgs.functionName = inputs?.props?.functionName;
-      parsedArgs.targetDir = inputs?.props?.targetDir || parsedArgs?.targetDir;
-    }
-
-    if (!(parsedArgs.region && parsedArgs.serviceName)) {
-      throw new Error('region/service-name required.');
-    }
-
-    const fcSync: any = new FcSync(credential, parsedArgs.region);
-
-    const { codeFiles, configYmlPath } = await fcSync.sync(parsedArgs, { force: parsedArgs.force });
-    return {
-      codeFiles,
-      configYmlPath,
-    }
-  }
 }
