@@ -27,8 +27,8 @@ export default class FcSyncComponent extends BaseComponent {
 
     const access: string = inputs?.project?.access || parsedArgs?.access;
     WriteFile.access = access;
-    const credential: ICredentials = await core.getCredential(access);
-    this.report('fc-sync', 'sync', credential.AccountID, access);
+    const credential: ICredentials = _.isEmpty(inputs.credentials) ? await core.getCredential(access) : inputs.credentials;
+    this.report('fc-sync', 'sync', credential.AccountID);
 
     if (!(parsedArgs.region && parsedArgs.serviceName)) {
       parsedArgs.region = inputs?.props?.region;
@@ -60,13 +60,7 @@ export default class FcSyncComponent extends BaseComponent {
     return (enableFcEndpoint === true || enableFcEndpoint === 'true') ? fcEndpoint : undefined;
   }
 
-  private async report(componentName: string, command: string, accountID?: string, access?: string): Promise<void> {
-    let uid: string = accountID;
-    if (_.isEmpty(accountID)) {
-      const credentials: ICredentials = await core.getCredential(access);
-      uid = credentials.AccountID;
-    }
-
+  private async report(componentName: string, command: string, uid?: string): Promise<void> {
     core.reportComponent(componentName, {
       command,
       uid,
