@@ -12,7 +12,7 @@ export default class FcSync {
     private fcClient;
     private region;
     private credentials;
-    constructor(credentials: ICredentials, region: any);
+    constructor(credentials: ICredentials, region: string, endpoint: string);
     sync(syncInputs: ISync, { force }: {
         force: any;
     }): Promise<{
