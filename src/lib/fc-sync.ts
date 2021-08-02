@@ -1,5 +1,4 @@
 import { ICredentials } from '../common/entity';
-const FC = require('@alicloud/fc2');
 import * as _ from 'lodash';
 import * as path from 'path';
 import * as fse from 'fs-extra';
@@ -7,6 +6,8 @@ import * as core from '@serverless-devs/core';
 import logger from '../common/logger';
 import WriteFile from './write-file';
 import { checkDirExists } from './utils';
+
+const FC = require('@alicloud/fc2');
 
 const DEFAULT_CLIENT_TIMEOUT: number = 300;
 const DEFAULT_SYNC_CODE_TARGET_DIR: string = process.cwd();
@@ -28,15 +29,16 @@ export default class FcSync {
   private region: string;
   private credentials: ICredentials;
 
-  constructor(credentials: ICredentials, region) {
+  constructor(credentials: ICredentials, region: string, endpoint: string) {
     if (_.isNil(region)) { throw new Error('please provide region.'); }
     this.region = region;
     this.credentials = credentials;
     this.fcClient = new FC(credentials.AccountID, {
+      region,
+      endpoint,
       accessKeyID: credentials.AccessKeyID,
       accessKeySecret: credentials.AccessKeySecret,
       securityToken: credentials.SecurityToken,
-      region: this.region,
       timeout: DEFAULT_CLIENT_TIMEOUT * 1000,
     });
   }
