@@ -1,4 +1,3 @@
-import BaseComponent from './common/base';
 import logger from './common/logger';
 import { InputProps, ICredentials } from './common/entity';
 import * as core from '@serverless-devs/core';
@@ -7,18 +6,14 @@ import FcSync from './lib/fc-sync';
 import WriteFile from './lib/write-file';
 import help from './lib/help';
 
-export default class FcSyncComponent extends BaseComponent {
-  constructor(props) {
-    super(props)
-  }
-
+export default class FcSyncComponent {
   /**
    * demo 实例
    * @param inputs
    * @returns
    */
   async sync (inputs: InputProps): Promise<any> {
-    const parsedArgs: any = this.argsParser(inputs?.args);
+    const parsedArgs: any = this.argsParser(inputs);
     logger.debug(`parsed args: ${JSON.stringify(parsedArgs)}`);
     if (parsedArgs.isHelp) {
       core.help(help);
@@ -67,13 +62,13 @@ export default class FcSyncComponent extends BaseComponent {
     });
   }
 
-  private argsParser(args: string) {
+  private argsParser(inputs: InputProps) {
     const apts: any = {
       boolean: ['help', 'force'],
       string: ['region', 'service-name', 'function-name', 'target-dir', 'type'],
       alias: { 'help': 'h', 'access': 'a', 'force': 'f' },
     };
-    const comParse: any = core.commandParse({ args }, apts);
+    const comParse: any = core.commandParse(inputs, apts);
     // 将Args转成Object
     const argsData: any = comParse.data || {};
     const { region, access, type = 'all', force } = argsData;

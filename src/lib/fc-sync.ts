@@ -109,7 +109,7 @@ export default class FcSync {
   async syncService({
     serviceName,
   }) {
-    const serviceConfig = (await this.fcClient.getService(serviceName)).data;
+    const serviceConfig = (await this.fcClient.getService(serviceName))?.data;
 
     serviceConfig.name = serviceName;
     if (!serviceConfig.logConfig?.project) {
@@ -148,7 +148,7 @@ export default class FcSync {
     functionName,
   }) {
     if (functionName) {
-      return [(await this.fcClient.getFunction(serviceName, functionName)).data];
+      return [(await this.fcClient.getFunction(serviceName, functionName))?.data];
     }
     return await this.nextListData('listFunctions', 'functions', [serviceName]);
   }
@@ -165,7 +165,7 @@ export default class FcSync {
       await fse.ensureDir(codeDir);
     }
     
-    const { data } = await this.fcClient.getFunctionCode(serviceName, functionName);
+    const { data } = (await this.fcClient.getFunctionCode(serviceName, functionName)) || {};
     const { url } = data;
     const codeZipFileName: string = `${this.credentials.AccountID}_${this.region}_${serviceName}_${functionName}.zip`;
 
@@ -201,7 +201,7 @@ export default class FcSync {
     const query: any = {};
     let data = [];
     do {
-      const res = (await this.fcClient[method](...paths, query)).data;
+      const res = (await this.fcClient[method](...paths, query))?.data;
       data = data.concat(res[dataKey]);
       query.nextToken = res.nextToken;
     } while(query.nextToken);
