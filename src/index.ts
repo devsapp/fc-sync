@@ -13,7 +13,7 @@ export default class FcSyncComponent {
    * @returns
    */
   async sync (inputs: InputProps): Promise<any> {
-    const parsedArgs: any = this.argsParser(inputs?.args);
+    const parsedArgs: any = this.argsParser(inputs);
     logger.debug(`parsed args: ${JSON.stringify(parsedArgs)}`);
     if (parsedArgs.isHelp) {
       core.help(help);
@@ -62,13 +62,13 @@ export default class FcSyncComponent {
     });
   }
 
-  private argsParser(args: string) {
+  private argsParser(inputs: InputProps) {
     const apts: any = {
       boolean: ['help', 'force'],
       string: ['region', 'service-name', 'function-name', 'target-dir', 'type'],
       alias: { 'help': 'h', 'access': 'a', 'force': 'f' },
     };
-    const comParse: any = core.commandParse({ args }, apts);
+    const comParse: any = core.commandParse(inputs, apts);
     // 将Args转成Object
     const argsData: any = comParse.data || {};
     const { region, access, type = 'all', force } = argsData;
