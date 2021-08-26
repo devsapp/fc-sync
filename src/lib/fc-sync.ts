@@ -164,13 +164,13 @@ export default class FcSync {
     } else {
       await fse.ensureDir(codeDir);
     }
-    
+
     const { data } = await this.fcClient.getFunctionCode(serviceName, functionName);
     const { url } = data;
     const codeZipFileName: string = `${this.credentials.AccountID}_${this.region}_${serviceName}_${functionName}.zip`;
 
     logger.info(`sync code to ${codeDir}`);
-    
+
     // 下载 code zip file
     await core.downloadRequest(url, codeDir, { filename: codeZipFileName, extract: false });
 

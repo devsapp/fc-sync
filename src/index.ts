@@ -1,4 +1,3 @@
-import BaseComponent from './common/base';
 import logger from './common/logger';
 import { InputProps, ICredentials } from './common/entity';
 import * as core from '@serverless-devs/core';
@@ -7,11 +6,7 @@ import FcSync from './lib/fc-sync';
 import WriteFile from './lib/write-file';
 import help from './lib/help';
 
-export default class FcSyncComponent extends BaseComponent {
-  constructor(props) {
-    super(props)
-  }
-
+export default class FcSyncComponent {
   /**
    * demo 实例
    * @param inputs
