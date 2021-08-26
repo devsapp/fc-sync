@@ -5,3 +5,4 @@ LICENSE
 package-lok.json
 .prettierrc.js
 .gitignore
+.env

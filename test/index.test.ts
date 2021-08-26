@@ -62,7 +62,6 @@ describe('test/index.test.ts', () => {
     const inp = _.cloneDeep(inputs);
     inp.args = '--help';
     const result = await componentStarter.sync(inp);
-    console.log('sync help result: ', result);
     expect(result).toBeUndefined();
   });
 
@@ -70,7 +69,6 @@ describe('test/index.test.ts', () => {
     const inp = _.cloneDeep(inputs);
     inp.args = `--target-dir ${dir}`;
     const result = await componentStarter.sync(inp);
-    console.log('sync yaml result: ', result);
     expect(JSON.stringify(result)).toMatch(/\/test\/testSync\/AccountID_cn-shenzhen_xxxxx_xxxxx/);
   });
 });
