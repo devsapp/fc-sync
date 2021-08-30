@@ -18,7 +18,7 @@ export default class WriteFile {
       const componentName = `${props.region}-${props.service.name}${functionName}`;
       ymlConfig[componentName] = { component, props };
     }
-    
+
     const configStr = yaml.dump({
       edition: '1.0.0',
       name: 'compoent-test',

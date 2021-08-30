@@ -5,17 +5,19 @@ export const checkFileExists = (filePath) => {
     if (fse.statSync(filePath).isFile()) {
       return true;
     }
-  // @ts-ignore
-  } catch(ex) {}
+  } catch (ex) {
+    // @ts-ignore
+  }
   return false;
-}
+};
 
 export const checkDirExists = (dirPath) => {
   try {
     if (fse.statSync(dirPath).isDirectory()) {
       return true;
     }
-  // @ts-ignore
-  } catch(ex) {}
+  } catch (ex) {
+    // @ts-ignore
+  }
   return false;
-}
+};

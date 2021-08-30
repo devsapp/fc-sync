@@ -69,6 +69,6 @@ describe('test/index.test.ts', () => {
     const inp = _.cloneDeep(inputs);
     inp.args = `--target-dir ${dir}`;
     const result = await componentStarter.sync(inp);
-    expect(JSON.stringify(result)).toMatch(/\/test\/testSync\/AccountID_cn-shenzhen_xxxxx_xxxxx/);
+    expect(result.codeFiles['fc-sync-test']).toMatch(/AccountID_cn-shenzhen_fc-sync-test_fc-sync-test$/);
   });
 });
