@@ -9,7 +9,7 @@ import { checkDirExists } from './utils';
 
 const FC = require('@alicloud/fc2');
 
-const DEFAULT_CLIENT_TIMEOUT: number = 300;
+const DEFAULT_CLIENT_TIMEOUT = 300;
 const DEFAULT_SYNC_CODE_TARGET_DIR: string = process.cwd();
 
 const DELETE_SERVICE_KEY = ['serviceName', 'serviceId', 'createdTime', 'lastModifiedTime'];
@@ -68,11 +68,11 @@ export default class FcSync {
     } else {
       for (const func of functions) {
         const funcName = func.functionName;
-  
+
         if (isSyncCode) {
           codeFiles[funcName] = await this.syncCode(serviceName, funcName, targetDir, force);
         }
-  
+
         if (isSyncConfig) {
           func.name = funcName;
           func.codeUri = codeFiles[funcName] || '******';
@@ -83,10 +83,10 @@ export default class FcSync {
             delete func.initializer;
             delete func.initializationTimeout;
           }
-  
+
           const triggers = await this.asyncTrigger({ serviceName, functionName: funcName });
           logger.debug(`get ${funcName} triggers: ${JSON.stringify(triggers)}`);
-  
+
           configs.push({
             region: this.region,
             service: serviceConfig,
@@ -128,12 +128,12 @@ export default class FcSync {
       const { userId, groupId, mountPoints } = serviceConfig.nasConfig;
 
       serviceConfig.nasConfig = {
-        userId, 
+        userId,
         groupId,
         mountPoints: mountPoints?.map((item) => {
           const [serverAddr, nasDir] = item.serverAddr.split(':');
           return { serverAddr, nasDir, fcDir: item.mountDir };
-        })
+        }),
       };
     }
     if (_.isEmpty(serviceConfig.tracingConfig)) {
@@ -167,7 +167,7 @@ export default class FcSync {
 
     const { data } = await this.fcClient.getFunctionCode(serviceName, functionName);
     const { url } = data;
-    const codeZipFileName: string = `${this.credentials.AccountID}_${this.region}_${serviceName}_${functionName}.zip`;
+    const codeZipFileName = `${this.credentials.AccountID}_${this.region}_${serviceName}_${functionName}.zip`;
 
     logger.info(`sync code to ${codeDir}`);
 
@@ -186,7 +186,7 @@ export default class FcSync {
   }) {
     const triggers = await this.nextListData('listTriggers', 'triggers', [serviceName, functionName]);
 
-    return triggers.map(trigger => ({
+    return triggers.map((trigger) => ({
       name: trigger.triggerName,
       description: trigger.description,
       sourceArn: trigger.sourceArn || undefined,
@@ -204,7 +204,7 @@ export default class FcSync {
       const res = (await this.fcClient[method](...paths, query)).data;
       data = data.concat(res[dataKey]);
       query.nextToken = res.nextToken;
-    } while(query.nextToken);
+    } while (query.nextToken);
 
     return data;
   }

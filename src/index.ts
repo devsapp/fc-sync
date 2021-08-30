@@ -12,8 +12,8 @@ export default class FcSyncComponent {
    * @param inputs
    * @returns
    */
-  async sync (inputs: InputProps): Promise<any> {
-    const parsedArgs: any = this.argsParser(inputs?.args);
+  async sync(inputs: InputProps): Promise<any> {
+    const parsedArgs: any = this.argsParser(inputs);
     logger.debug(`parsed args: ${JSON.stringify(parsedArgs)}`);
     if (parsedArgs.isHelp) {
       core.help(help);
@@ -37,14 +37,14 @@ export default class FcSyncComponent {
     }
 
     const endpoint = await this.getFcEndpoint();
-   
+
     const fcSync: any = new FcSync(credential, parsedArgs.region, endpoint);
 
     const { codeFiles, configYmlPath } = await fcSync.sync(parsedArgs, { force: parsedArgs.force });
     return {
       codeFiles,
       configYmlPath,
-    }
+    };
   }
 
   private async getFcEndpoint(): Promise<string | undefined> {
@@ -62,13 +62,13 @@ export default class FcSyncComponent {
     });
   }
 
-  private argsParser(args: string) {
+  private argsParser(inputs: InputProps) {
     const apts: any = {
       boolean: ['help', 'force'],
       string: ['region', 'service-name', 'function-name', 'target-dir', 'type'],
-      alias: { 'help': 'h', 'access': 'a', 'force': 'f' },
+      alias: { help: 'h', access: 'a', force: 'f' },
     };
-    const comParse: any = core.commandParse({ args }, apts);
+    const comParse: any = core.commandParse(inputs, apts);
     // 将Args转成Object
     const argsData: any = comParse.data || {};
     const { region, access, type = 'all', force } = argsData;
@@ -77,7 +77,7 @@ export default class FcSyncComponent {
     }
     const functionName: string = argsData['function-name'];
     const serviceName: string = argsData['service-name'];
-    const targetDir: string = argsData['target-dir']
+    const targetDir: string = argsData['target-dir'];
     const isSyncCode: boolean = type === 'code' || type === 'all';
     const isSyncConfig: boolean = type === 'config' || type === 'all';
 
@@ -89,8 +89,7 @@ export default class FcSyncComponent {
       isSyncCode,
       isSyncConfig,
       targetDir,
-      access
+      access,
     };
   }
-
 }

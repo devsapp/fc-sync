@@ -7,3 +7,4 @@ doc/
 **/*-min.js
 **/*.bundle.js
 ./tsconfig.json
+example/
