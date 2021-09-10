@@ -51,6 +51,7 @@ describe('test/index.test.ts', () => {
     sandbox.stub(FC.prototype, 'listTriggers').resolves({
       data: { triggers: [{ name }] },
     });
+    sandbox.stub(FC.prototype, 'getFunctionAsyncConfig').resolves({});
   });
 
   afterEach(async () => {

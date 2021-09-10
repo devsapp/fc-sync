@@ -6,7 +6,7 @@ export const checkFileExists = (filePath) => {
       return true;
     }
   } catch (ex) {
-    // @ts-ignore
+    // @ts-ignore: .
   }
   return false;
 };
@@ -17,7 +17,7 @@ export const checkDirExists = (dirPath) => {
       return true;
     }
   } catch (ex) {
-    // @ts-ignore
+    // @ts-ignore: .
   }
   return false;
 };

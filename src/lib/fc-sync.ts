@@ -1,4 +1,5 @@
 import { ICredentials } from '../common/entity';
+import FC from '@alicloud/fc2';
 import * as _ from 'lodash';
 import * as path from 'path';
 import * as fse from 'fs-extra';
@@ -6,8 +7,6 @@ import * as core from '@serverless-devs/core';
 import logger from '../common/logger';
 import WriteFile from './write-file';
 import { checkDirExists } from './utils';
-
-const FC = require('@alicloud/fc2');
 
 const DEFAULT_CLIENT_TIMEOUT = 300;
 const DEFAULT_SYNC_CODE_TARGET_DIR: string = process.cwd();
@@ -70,7 +69,11 @@ export default class FcSync {
         const funcName = func.functionName;
 
         if (isSyncCode) {
-          codeFiles[funcName] = await this.syncCode(serviceName, funcName, targetDir, force);
+          if (func.runtime === 'custom-container') {
+            logger.warning(`Reminder sync code: ${serviceName}/${funcName} runtime is custom-container, skip`);
+          } else {
+            codeFiles[funcName] = await this.syncCode(serviceName, funcName, targetDir, force);
+          }
         }
 
         if (isSyncConfig) {
@@ -84,6 +87,7 @@ export default class FcSync {
             delete func.initializationTimeout;
           }
 
+          func.asyncConfiguration = await this.getFunctionAsyncConfig({ serviceName, functionName: funcName });
           const triggers = await this.asyncTrigger({ serviceName, functionName: funcName });
           logger.debug(`get ${funcName} triggers: ${JSON.stringify(triggers)}`);
 
@@ -136,7 +140,9 @@ export default class FcSync {
         }),
       };
     }
-    if (_.isEmpty(serviceConfig.tracingConfig)) {
+    if (serviceConfig.tracingConfig?.type) {
+      serviceConfig.tracingConfig = 'Enable';
+    } else {
       delete serviceConfig.tracingConfig;
     }
     delete serviceConfig.vendorConfig;
@@ -151,6 +157,25 @@ export default class FcSync {
       return [(await this.fcClient.getFunction(serviceName, functionName)).data];
     }
     return await this.nextListData('listFunctions', 'functions', [serviceName]);
+  }
+
+  async getFunctionAsyncConfig({ serviceName, functionName }) {
+    try {
+      const { data } = await this.fcClient.getFunctionAsyncConfig(serviceName, functionName);
+      return {
+        destination: {
+          onSuccess: data?.destinationConfig?.onSuccess.destination,
+          onFailure: data?.destinationConfig?.onFailure.destination,
+        },
+        maxAsyncEventAgeInSeconds: data?.maxAsyncEventAgeInSeconds,
+        maxAsyncRetryAttempts: data?.maxAsyncRetryAttempts,
+        statefulInvocation: data?.statefulInvocation,
+      };
+    } catch (ex) {
+      if (ex.code !== 'AsyncConfigNotExists') {
+        throw ex;
+      }
+    }
   }
 
   async syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string, force: boolean): Promise<string> {

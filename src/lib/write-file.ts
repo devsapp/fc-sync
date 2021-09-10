@@ -9,8 +9,8 @@ export default class WriteFile {
   static access: string;
 
   static async writeSYml(targetDir, config, fileAffix?) {
-    targetDir = path.resolve(targetDir);
-    const ymlPath = this.getYmlFilePath(targetDir, fileAffix);
+    const targetDirResolve = path.resolve(targetDir);
+    const ymlPath = this.getYmlFilePath(targetDirResolve, fileAffix);
 
     const ymlConfig = {};
     for (const props of config) {
@@ -26,7 +26,7 @@ export default class WriteFile {
       services: JSON.parse(JSON.stringify(ymlConfig)),
     });
 
-    await fse.ensureDir(targetDir);
+    await fse.ensureDir(targetDirResolve);
     await fse.writeFile(ymlPath, configStr);
     return ymlPath;
   }
