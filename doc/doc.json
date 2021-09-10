@@ -26,163 +26,16 @@
 							"kind": 16384,
 							"kindString": "Constructor signature",
 							"flags": {},
-							"parameters": [
-								{
-									"id": 4,
-									"name": "props",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {},
-									"type": {
-										"type": "intrinsic",
-										"name": "any"
-									}
-								}
-							],
 							"type": {
 								"type": "reference",
 								"id": 1,
 								"name": "default"
-							},
-							"overwrites": {
-								"type": "reference",
-								"name": "BaseComponent.constructor"
 							}
 						}
-					],
-					"overwrites": {
-						"type": "reference",
-						"name": "BaseComponent.constructor"
-					}
+					]
 				},
 				{
-					"id": 38,
-					"name": "client",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isProtected": true
-					},
-					"sources": [
-						{
-							"fileName": "common/base.ts",
-							"line": 9,
-							"character": 20
-						}
-					],
-					"type": {
-						"type": "intrinsic",
-						"name": "any"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "BaseComponent.client"
-					}
-				},
-				{
-					"id": 39,
-					"name": "inputs",
-					"kind": 1024,
-					"kindString": "Property",
-					"flags": {
-						"isProtected": true
-					},
-					"type": {
-						"type": "intrinsic",
-						"name": "any"
-					},
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "BaseComponent.inputs"
-					}
-				},
-				{
-					"id": 42,
-					"name": "__doc",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "common/base.ts",
-							"line": 34,
-							"character": 9
-						}
-					],
-					"signatures": [
-						{
-							"id": 43,
-							"name": "__doc",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"parameters": [
-								{
-									"id": 44,
-									"name": "projectName",
-									"kind": 32768,
-									"kindString": "Parameter",
-									"flags": {
-										"isOptional": true
-									},
-									"type": {
-										"type": "intrinsic",
-										"name": "string"
-									}
-								}
-							],
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "BaseComponent.__doc"
-							}
-						}
-					],
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "BaseComponent.__doc"
-					}
-				},
-				{
-					"id": 40,
-					"name": "__getBasePath",
-					"kind": 2048,
-					"kindString": "Method",
-					"flags": {},
-					"sources": [
-						{
-							"fileName": "common/base.ts",
-							"line": 21,
-							"character": 17
-						}
-					],
-					"signatures": [
-						{
-							"id": 41,
-							"name": "__getBasePath",
-							"kind": 4096,
-							"kindString": "Call signature",
-							"flags": {},
-							"type": {
-								"type": "intrinsic",
-								"name": "string"
-							},
-							"inheritedFrom": {
-								"type": "reference",
-								"name": "BaseComponent.__getBasePath"
-							}
-						}
-					],
-					"inheritedFrom": {
-						"type": "reference",
-						"name": "BaseComponent.__getBasePath"
-					}
-				},
-				{
-					"id": 15,
+					"id": 14,
 					"name": "argsParser",
 					"kind": 2048,
 					"kindString": "Method",
@@ -192,27 +45,27 @@
 					"sources": [
 						{
 							"fileName": "index.ts",
-							"line": 70,
+							"line": 65,
 							"character": 20
 						}
 					],
 					"signatures": [
 						{
-							"id": 16,
+							"id": 15,
 							"name": "argsParser",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 17,
-									"name": "args",
+									"id": 16,
+									"name": "inputs",
 									"kind": 32768,
 									"kindString": "Parameter",
 									"flags": {},
 									"type": {
-										"type": "intrinsic",
-										"name": "string"
+										"type": "reference",
+										"name": "InputProps"
 									}
 								}
 							],
@@ -222,37 +75,15 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 18,
+											"id": 17,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 27,
+													"id": 26,
 													"name": "access",
-													"kind": 1024,
-													"kindString": "Property",
-													"flags": {},
-													"type": {
-														"type": "intrinsic",
-														"name": "undefined"
-													}
-												},
-												{
-													"id": 20,
-													"name": "force",
-													"kind": 1024,
-													"kindString": "Property",
-													"flags": {},
-													"type": {
-														"type": "intrinsic",
-														"name": "undefined"
-													}
-												},
-												{
-													"id": 23,
-													"name": "functionName",
 													"kind": 1024,
 													"kindString": "Property",
 													"flags": {},
@@ -263,41 +94,7 @@
 												},
 												{
 													"id": 19,
-													"name": "isHelp",
-													"kind": 1024,
-													"kindString": "Property",
-													"flags": {},
-													"type": {
-														"type": "intrinsic",
-														"name": "boolean"
-													},
-													"defaultValue": "true"
-												},
-												{
-													"id": 24,
-													"name": "isSyncCode",
-													"kind": 1024,
-													"kindString": "Property",
-													"flags": {},
-													"type": {
-														"type": "intrinsic",
-														"name": "undefined"
-													}
-												},
-												{
-													"id": 25,
-													"name": "isSyncConfig",
-													"kind": 1024,
-													"kindString": "Property",
-													"flags": {},
-													"type": {
-														"type": "intrinsic",
-														"name": "undefined"
-													}
-												},
-												{
-													"id": 21,
-													"name": "region",
+													"name": "force",
 													"kind": 1024,
 													"kindString": "Property",
 													"flags": {},
@@ -308,6 +105,62 @@
 												},
 												{
 													"id": 22,
+													"name": "functionName",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 18,
+													"name": "isHelp",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "boolean"
+													},
+													"defaultValue": "true"
+												},
+												{
+													"id": 23,
+													"name": "isSyncCode",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 24,
+													"name": "isSyncConfig",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 20,
+													"name": "region",
+													"kind": 1024,
+													"kindString": "Property",
+													"flags": {},
+													"type": {
+														"type": "intrinsic",
+														"name": "undefined"
+													}
+												},
+												{
+													"id": 21,
 													"name": "serviceName",
 													"kind": 1024,
 													"kindString": "Property",
@@ -318,7 +171,7 @@
 													}
 												},
 												{
-													"id": 26,
+													"id": 25,
 													"name": "targetDir",
 													"kind": 1024,
 													"kindString": "Property",
@@ -334,15 +187,15 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														27,
-														20,
-														23,
+														26,
 														19,
-														24,
-														25,
-														21,
 														22,
-														26
+														18,
+														23,
+														24,
+														20,
+														21,
+														25
 													]
 												}
 											]
@@ -351,14 +204,14 @@
 									{
 										"type": "reflection",
 										"declaration": {
-											"id": 28,
+											"id": 27,
 											"name": "__type",
 											"kind": 65536,
 											"kindString": "Type literal",
 											"flags": {},
 											"children": [
 												{
-													"id": 36,
+													"id": 35,
 													"name": "access",
 													"kind": 1024,
 													"kindString": "Property",
@@ -369,7 +222,7 @@
 													}
 												},
 												{
-													"id": 29,
+													"id": 28,
 													"name": "force",
 													"kind": 1024,
 													"kindString": "Property",
@@ -380,7 +233,7 @@
 													}
 												},
 												{
-													"id": 32,
+													"id": 31,
 													"name": "functionName",
 													"kind": 1024,
 													"kindString": "Property",
@@ -391,7 +244,7 @@
 													}
 												},
 												{
-													"id": 37,
+													"id": 36,
 													"name": "isHelp",
 													"kind": 1024,
 													"kindString": "Property",
@@ -403,7 +256,7 @@
 													"defaultValue": "true"
 												},
 												{
-													"id": 33,
+													"id": 32,
 													"name": "isSyncCode",
 													"kind": 1024,
 													"kindString": "Property",
@@ -414,7 +267,7 @@
 													}
 												},
 												{
-													"id": 34,
+													"id": 33,
 													"name": "isSyncConfig",
 													"kind": 1024,
 													"kindString": "Property",
@@ -425,7 +278,7 @@
 													}
 												},
 												{
-													"id": 30,
+													"id": 29,
 													"name": "region",
 													"kind": 1024,
 													"kindString": "Property",
@@ -436,7 +289,7 @@
 													}
 												},
 												{
-													"id": 31,
+													"id": 30,
 													"name": "serviceName",
 													"kind": 1024,
 													"kindString": "Property",
@@ -447,7 +300,7 @@
 													}
 												},
 												{
-													"id": 35,
+													"id": 34,
 													"name": "targetDir",
 													"kind": 1024,
 													"kindString": "Property",
@@ -463,15 +316,15 @@
 													"title": "Properties",
 													"kind": 1024,
 													"children": [
-														36,
-														29,
-														32,
-														37,
-														33,
-														34,
-														30,
+														35,
+														28,
 														31,
-														35
+														36,
+														32,
+														33,
+														29,
+														30,
+														34
 													]
 												}
 											]
@@ -483,7 +336,7 @@
 					]
 				},
 				{
-					"id": 8,
+					"id": 7,
 					"name": "getFcEndpoint",
 					"kind": 2048,
 					"kindString": "Method",
@@ -493,13 +346,13 @@
 					"sources": [
 						{
 							"fileName": "index.ts",
-							"line": 55,
+							"line": 50,
 							"character": 29
 						}
 					],
 					"signatures": [
 						{
-							"id": 9,
+							"id": 8,
 							"name": "getFcEndpoint",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -518,7 +371,7 @@
 					]
 				},
 				{
-					"id": 10,
+					"id": 9,
 					"name": "report",
 					"kind": 2048,
 					"kindString": "Method",
@@ -528,20 +381,20 @@
 					"sources": [
 						{
 							"fileName": "index.ts",
-							"line": 63,
+							"line": 58,
 							"character": 22
 						}
 					],
 					"signatures": [
 						{
-							"id": 11,
+							"id": 10,
 							"name": "report",
 							"kind": 4096,
 							"kindString": "Call signature",
 							"flags": {},
 							"parameters": [
 								{
-									"id": 12,
+									"id": 11,
 									"name": "componentName",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -552,7 +405,7 @@
 									}
 								},
 								{
-									"id": 13,
+									"id": 12,
 									"name": "command",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -563,7 +416,7 @@
 									}
 								},
 								{
-									"id": 14,
+									"id": 13,
 									"name": "uid",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -590,7 +443,7 @@
 					]
 				},
 				{
-					"id": 5,
+					"id": 4,
 					"name": "sync",
 					"kind": 2048,
 					"kindString": "Method",
@@ -598,13 +451,13 @@
 					"sources": [
 						{
 							"fileName": "index.ts",
-							"line": 20,
+							"line": 15,
 							"character": 12
 						}
 					],
 					"signatures": [
 						{
-							"id": 6,
+							"id": 5,
 							"name": "sync",
 							"kind": 4096,
 							"kindString": "Call signature",
@@ -615,7 +468,7 @@
 							},
 							"parameters": [
 								{
-									"id": 7,
+									"id": 6,
 									"name": "inputs",
 									"kind": 32768,
 									"kindString": "Parameter",
@@ -650,37 +503,21 @@
 					]
 				},
 				{
-					"title": "Properties",
-					"kind": 1024,
-					"children": [
-						38,
-						39
-					]
-				},
-				{
 					"title": "Methods",
 					"kind": 2048,
 					"children": [
-						42,
-						40,
-						15,
-						8,
-						10,
-						5
+						14,
+						7,
+						9,
+						4
 					]
 				}
 			],
 			"sources": [
 				{
 					"fileName": "index.ts",
-					"line": 10,
+					"line": 9,
 					"character": 36
-				}
-			],
-			"extendedTypes": [
-				{
-					"type": "reference",
-					"name": "BaseComponent"
 				}
 			]
 		}
