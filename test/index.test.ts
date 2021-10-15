@@ -1,12 +1,8 @@
 import _ from 'lodash';
 import path from 'path';
 import ComponentStarter from '../src/index';
-import sinon from 'sinon';
 import fse from 'fs-extra';
 import FC from '@alicloud/fc2';
-
-const sandbox = sinon.createSandbox();
-const componentStarter = new ComponentStarter();
 
 const name = 'fc-sync-test';
 const dir = './test/testSync/';
@@ -35,27 +31,30 @@ const inputs = {
 };
 
 describe('test/index.test.ts', () => {
+  let componentStarter;
   beforeEach(async () => {
-    sandbox.stub(FC.prototype, 'getService').resolves({
-      data: { name },
+    const fcClient = new FC(inputs.credentials.AccountID, {
+      accessKeyID: inputs.credentials.AccessKeyID,
+      accessKeySecret: inputs.credentials.AccessKeySecret,
+      region: inputs.props.region,
     });
-    sandbox.stub(FC.prototype, 'listFunctions').resolves({
-      data: { functions: [{ name }],
-    } });
-    sandbox.stub(FC.prototype, 'getFunction').resolves({
-      data: { functionName: name },
+    fcClient.getService = () => ({ data: { name } });
+    fcClient.listFunctions = () => ({ data: { functions: [{ name }], } });
+    fcClient.getFunction = () => ({
+      data: { functionName: name, 
+        handler: 'index.handler',
+        memorySize: 128, }
     });
-    sandbox.stub(FC.prototype, 'getFunctionCode').resolves({
-      data: { url: 'https://registry.devsapp.cn/simple/devsapp/fc-info/zipball/0.0.11' }
-    });
-    sandbox.stub(FC.prototype, 'listTriggers').resolves({
-      data: { triggers: [{ name }] },
-    });
-    sandbox.stub(FC.prototype, 'getFunctionAsyncConfig').resolves({});
-  });
+    fcClient.getFunctionCode = () => ({ data: { url: 'https://registry.devsapp.cn/simple/devsapp/fc-info/zipball/0.0.11' } });
+    fcClient.listTriggers = () => ({ data: { triggers: [{ name }] }, });
+    fcClient.getFunctionAsyncConfig = () => ({});
+
+    componentStarter = new ComponentStarter();
+    componentStarter.getFcClient = jest.fn();
+    componentStarter.getFcClient.mockReturnValue(fcClient);
+  })
 
   afterEach(async () => {
-    sandbox.restore();
     await fse.remove(dir);
   });
 

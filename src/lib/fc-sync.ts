@@ -1,5 +1,3 @@
-import { ICredentials } from '../common/entity';
-import FC from '@alicloud/fc2';
 import * as _ from 'lodash';
 import * as path from 'path';
 import * as fse from 'fs-extra';
@@ -8,7 +6,6 @@ import logger from '../common/logger';
 import WriteFile from './write-file';
 import { checkDirExists } from './utils';
 
-const DEFAULT_CLIENT_TIMEOUT = 300;
 const DEFAULT_SYNC_CODE_TARGET_DIR: string = process.cwd();
 
 const DELETE_SERVICE_KEY = ['serviceName', 'serviceId', 'createdTime', 'lastModifiedTime'];
@@ -26,20 +23,11 @@ interface ISync {
 export default class FcSync {
   private fcClient: any;
   private region: string;
-  private credentials: ICredentials;
 
-  constructor(credentials: ICredentials, region: string, endpoint: string) {
+  constructor(fcClient, region: string) {
     if (_.isNil(region)) { throw new Error('please provide region.'); }
     this.region = region;
-    this.credentials = credentials;
-    this.fcClient = new FC(credentials.AccountID, {
-      region,
-      endpoint,
-      accessKeyID: credentials.AccessKeyID,
-      accessKeySecret: credentials.AccessKeySecret,
-      securityToken: credentials.SecurityToken,
-      timeout: DEFAULT_CLIENT_TIMEOUT * 1000,
-    });
+    this.fcClient = fcClient;
   }
 
   async sync(syncInputs: ISync, { force }) {
@@ -85,6 +73,9 @@ export default class FcSync {
           if (!func.initializer) {
             delete func.initializer;
             delete func.initializationTimeout;
+          }
+          if (func.instanceType !== 'g1') {
+            delete func.gpuMemorySize;
           }
 
           func.asyncConfiguration = await this.getFunctionAsyncConfig({ serviceName, functionName: funcName });
@@ -180,7 +171,7 @@ export default class FcSync {
 
   async syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string, force: boolean): Promise<string> {
     const targetDir = path.resolve(codeZipFileTargetDir);
-    const codeDir = path.join(targetDir, `${this.credentials.AccountID}_${this.region}_${serviceName}_${functionName}`);
+    const codeDir = path.join(targetDir, `${this.fcClient.accountid}_${this.region}_${serviceName}_${functionName}`);
 
     if (checkDirExists(codeDir)) {
       if (!force) {
@@ -192,7 +183,7 @@ export default class FcSync {
 
     const { data } = await this.fcClient.getFunctionCode(serviceName, functionName);
     const { url } = data;
-    const codeZipFileName = `${this.credentials.AccountID}_${this.region}_${serviceName}_${functionName}.zip`;
+    const codeZipFileName = `${this.fcClient.accountid}_${this.region}_${serviceName}_${functionName}.zip`;
 
     logger.info(`sync code to ${codeDir}`);
 
