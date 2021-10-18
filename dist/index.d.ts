@@ -6,7 +6,7 @@ export default class FcSyncComponent {
      * @returns
      */
     sync(inputs: InputProps): Promise<any>;
-    private getFcEndpoint;
+    private getFcClient;
     private report;
     private argsParser;
 }
