@@ -1,4 +1,3 @@
-import { ICredentials } from '../common/entity';
 import * as _ from 'lodash';
 interface ISync {
     region: string;
@@ -11,8 +10,7 @@ interface ISync {
 export default class FcSync {
     private fcClient;
     private region;
-    private credentials;
-    constructor(credentials: ICredentials, region: string, endpoint: string);
+    constructor(fcClient: any, region: string);
     sync(syncInputs: ISync, { force }: {
         force: any;
     }): Promise<{
@@ -30,15 +28,7 @@ export default class FcSync {
     getFunctionAsyncConfig({ serviceName, functionName }: {
         serviceName: any;
         functionName: any;
-    }): Promise<{
-        destination: {
-            onSuccess: any;
-            onFailure: any;
-        };
-        maxAsyncEventAgeInSeconds: any;
-        maxAsyncRetryAttempts: any;
-        statefulInvocation: any;
-    }>;
+    }): Promise<any>;
     syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string, force: boolean): Promise<string>;
     asyncTrigger({ serviceName, functionName, }: {
         serviceName: any;
