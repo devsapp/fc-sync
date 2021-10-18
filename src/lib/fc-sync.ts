@@ -153,15 +153,41 @@ export default class FcSync {
   async getFunctionAsyncConfig({ serviceName, functionName }) {
     try {
       const { data } = await this.fcClient.getFunctionAsyncConfig(serviceName, functionName);
-      return {
-        destination: {
-          onSuccess: data?.destinationConfig?.onSuccess.destination,
-          onFailure: data?.destinationConfig?.onFailure.destination,
-        },
-        maxAsyncEventAgeInSeconds: data?.maxAsyncEventAgeInSeconds,
-        maxAsyncRetryAttempts: data?.maxAsyncRetryAttempts,
-        statefulInvocation: data?.statefulInvocation,
-      };
+
+      const {
+        statefulInvocation,
+        maxAsyncRetryAttempts,
+        maxAsyncEventAgeInSeconds,
+        destinationConfig = {},
+      } = data || {};
+      const onSuccess = destinationConfig?.onSuccess?.destination;
+      const onFailure = destinationConfig?.onFailure?.destination;
+
+      const functionAsyncConfig: any = {};
+      // 如果返回值不为空，则追加到 functionAsyncConfig 配置中
+      if (!(_.isNil(onSuccess) && _.isNil(onFailure))) {
+        functionAsyncConfig.destination = {};
+        if (!_.isNil(onSuccess)) {
+          functionAsyncConfig.destination.onSuccess = onSuccess;
+        }
+        if (!_.isNil(onFailure)) {
+          functionAsyncConfig.destination.onFailure = onFailure;
+        }
+      }
+      if (!_.isNil(maxAsyncEventAgeInSeconds)) {
+        functionAsyncConfig.maxAsyncEventAgeInSeconds = maxAsyncEventAgeInSeconds;
+      }
+      if (!_.isNil(maxAsyncRetryAttempts)) {
+        functionAsyncConfig.maxAsyncRetryAttempts = maxAsyncRetryAttempts;
+      }
+      if (!_.isNil(statefulInvocation)) {
+        functionAsyncConfig.statefulInvocation = statefulInvocation;
+      }
+
+      // 如果 functionAsyncConfig 不为空，则返回配置；否则返回 undefined
+      if (!_.isEmpty(functionAsyncConfig)) {
+        return functionAsyncConfig;
+      }
     } catch (ex) {
       if (ex.code !== 'AsyncConfigNotExists') {
         throw ex;
