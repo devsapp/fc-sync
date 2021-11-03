@@ -5,6 +5,7 @@ module.exports = {
   root: true,
   rules: {
     'no-await-in-loop': 'off',
+    'max-len': 'off',
   },
   env: {
     node: true,

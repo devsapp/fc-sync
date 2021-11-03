@@ -82,12 +82,19 @@ export default class FcSync {
           const triggers = await this.asyncTrigger({ serviceName, functionName: funcName });
           logger.debug(`get ${funcName} triggers: ${JSON.stringify(triggers)}`);
 
-          configs.push({
+          const config: any = {
             region: this.region,
             service: serviceConfig,
-            function: _.pickBy(_.omit(func, DELETE_FUNCTION_KEY), _.identity),
-            triggers,
-          });
+          };
+
+          const funcConfig = this.clearInvalidField(func, DELETE_FUNCTION_KEY);
+          if (!_.isEmpty(funcConfig)) {
+            config.function = funcConfig;
+          }
+          if (!_.isEmpty(triggers)) {
+            config.triggers = triggers;
+          }
+          configs.push(config);
         }
       }
     }
@@ -137,7 +144,8 @@ export default class FcSync {
       delete serviceConfig.tracingConfig;
     }
     delete serviceConfig.vendorConfig;
-    return _.pickBy(_.omit(serviceConfig, DELETE_SERVICE_KEY), _.identity);
+
+    return this.clearInvalidField(serviceConfig, DELETE_SERVICE_KEY);
   }
 
   async syncFunction({
@@ -249,5 +257,10 @@ export default class FcSync {
     } while (query.nextToken);
 
     return data;
+  }
+
+  private clearInvalidField(data, invalidKeys) {
+    const d = _.omit(data, invalidKeys);
+    return _.pickBy(d, (value: any) => !_.isNil(value) && value !== '');
   }
 }
