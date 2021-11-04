@@ -1,6 +1,6 @@
 {
   "name": "fc-sync",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "This is a component demo for Serverless Devs Tool ",
   "keywords": [
     "Serverless",
@@ -25,7 +25,7 @@
   "scripts": {
     "start": "npm run watch",
     "watch": "tsc -w",
-    "prebuild": "rm -rf node_modules && rm -rf package-lock.json && npm i && rimraf dist",
+    "prebuild": "rm -rf node_modules && rm -rf package-lock.json && npm i && rm -rf dist",
     "build": "ncc build src/index.ts -m -e @serverless-devs/core -o dist",
     "postbuild": "npm run doc",
     "doc": "npx typedoc src/index.ts --json doc/doc.json --out doc",

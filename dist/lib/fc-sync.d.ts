@@ -43,5 +43,6 @@ export default class FcSync {
         config: any;
     }[]>;
     nextListData(method: any, dataKey: any, paths: any): Promise<any[]>;
+    private clearInvalidField;
 }
 export {};
