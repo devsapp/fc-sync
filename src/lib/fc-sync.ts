@@ -241,7 +241,7 @@ export default class FcSync {
       description: trigger.description,
       sourceArn: trigger.sourceArn || undefined,
       type: trigger.triggerType,
-      invocationRole: trigger.invocationRole || undefined,
+      role: trigger.invocationRole || undefined,
       qualifier: trigger.qualifier || undefined,
       config: trigger.triggerConfig,
     }));
