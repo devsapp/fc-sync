@@ -77,6 +77,9 @@ export default class FcSync {
           if (func.instanceType !== 'g1') {
             delete func.gpuMemorySize;
           }
+          if (_.isNil(func.customDNS)) {
+            delete func.customDNS;
+          }
 
           func.asyncConfiguration = await this.getFunctionAsyncConfig({ serviceName, functionName: funcName });
           const triggers = await this.asyncTrigger({ serviceName, functionName: funcName });
