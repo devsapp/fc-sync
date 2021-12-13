@@ -38,7 +38,7 @@ export default class FcSync {
         description: any;
         sourceArn: any;
         type: any;
-        invocationRole: any;
+        role: any;
         qualifier: any;
         config: any;
     }[]>;
