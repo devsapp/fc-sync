@@ -10,6 +10,7 @@ const DEFAULT_SYNC_CODE_TARGET_DIR: string = process.cwd();
 
 const DELETE_SERVICE_KEY = ['serviceName', 'serviceId', 'createdTime', 'lastModifiedTime'];
 const DELETE_FUNCTION_KEY = ['lastModifiedTime', 'createdTime', 'codeChecksum', 'codeSize', 'functionName', 'functionId'];
+const isCustomContainer = (runtime) => runtime === 'custom-container';
 
 interface ISync {
   region: string;
@@ -57,7 +58,7 @@ export default class FcSync {
         const funcName = func.functionName;
 
         if (isSyncCode) {
-          if (func.runtime === 'custom-container') {
+          if (isCustomContainer(func.runtime)) {
             logger.warning(`Reminder sync code: ${serviceName}/${funcName} runtime is custom-container, skip`);
           } else {
             codeFiles[funcName] = await this.syncCode(serviceName, funcName, targetDir, force);
@@ -66,7 +67,6 @@ export default class FcSync {
 
         if (isSyncConfig) {
           func.name = funcName;
-          func.codeUri = codeFiles[funcName] || '******';
           if (!(func.instanceLifecycleConfig?.preStop?.handler || func.instanceLifecycleConfig?.preStop?.handler)) {
             delete func.instanceLifecycleConfig;
           }
@@ -91,6 +91,20 @@ export default class FcSync {
           };
 
           const funcConfig = this.clearInvalidField(func, DELETE_FUNCTION_KEY);
+          if (isCustomContainer(funcConfig?.runtime)) {
+            if (_.has(funcConfig.customContainerConfig, 'accelerationInfo')) {
+              delete funcConfig.customContainerConfig.accelerationInfo;
+            }
+            const customContainerConfig = {};
+            _.forIn(funcConfig.customContainerConfig, (value, key) => {
+              if (!_.isEmpty(value)) {
+                customContainerConfig[key] = value;
+              }
+            });
+            funcConfig.customContainerConfig = customContainerConfig;
+          } else {
+            func.codeUri = codeFiles[funcName] || '******';
+          }
           if (!_.isEmpty(funcConfig)) {
             config.function = funcConfig;
           }
