@@ -103,7 +103,7 @@ export default class FcSync {
             });
             funcConfig.customContainerConfig = customContainerConfig;
           } else {
-            func.codeUri = codeFiles[funcName] || '******';
+            funcConfig.codeUri = codeFiles[funcName] || '******';
           }
           if (!_.isEmpty(funcConfig)) {
             config.function = funcConfig;

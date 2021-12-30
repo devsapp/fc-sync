@@ -22,4 +22,7 @@ README.md
 ./Makefile
 ./f2elint.config.js
 ./commitlint.config.js
+./jest.*
+./tsconfig.json
+./*.md
 ./src
