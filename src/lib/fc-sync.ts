@@ -19,6 +19,7 @@ interface ISync {
   targetDir?: string;
   isSyncCode?: boolean;
   isSyncConfig?: boolean;
+  qualifier?: string;
 }
 
 export default class FcSync {
@@ -39,11 +40,12 @@ export default class FcSync {
       targetDir = DEFAULT_SYNC_CODE_TARGET_DIR,
       isSyncCode,
       isSyncConfig,
+      qualifier,
     } = syncInputs;
 
-    const serviceConfig = await this.syncService({ serviceName });
+    const serviceConfig = await this.syncService({ serviceName, qualifier });
     logger.debug(`service config: ${JSON.stringify(serviceConfig)}`);
-    const functions = await this.syncFunction({ serviceName, functionName });
+    const functions = await this.syncFunction({ serviceName, functionName, qualifier });
     logger.debug(`get functions: ${JSON.stringify(functions)}`);
 
     const configs = [];
@@ -61,7 +63,7 @@ export default class FcSync {
           if (isCustomContainer(func.runtime)) {
             logger.warning(`Reminder sync code: ${serviceName}/${funcName} runtime is custom-container, skip`);
           } else {
-            codeFiles[funcName] = await this.syncCode(serviceName, funcName, targetDir, force);
+            codeFiles[funcName] = await this.syncCode(serviceName, funcName, targetDir, force, qualifier);
           }
         }
 
@@ -81,7 +83,7 @@ export default class FcSync {
             delete func.customDNS;
           }
 
-          func.asyncConfiguration = await this.getFunctionAsyncConfig({ serviceName, functionName: funcName });
+          func.asyncConfiguration = await this.getFunctionAsyncConfig({ serviceName, functionName: funcName, qualifier });
           const triggers = await this.asyncTrigger({ serviceName, functionName: funcName });
           logger.debug(`get ${funcName} triggers: ${JSON.stringify(triggers)}`);
 
@@ -127,8 +129,9 @@ export default class FcSync {
 
   async syncService({
     serviceName,
+    qualifier,
   }) {
-    const serviceConfig = (await this.fcClient.getService(serviceName)).data;
+    const serviceConfig = (await this.fcClient.getService(serviceName, undefined, qualifier)).data;
 
     serviceConfig.name = serviceName;
     if (!serviceConfig.logConfig?.project) {
@@ -168,16 +171,17 @@ export default class FcSync {
   async syncFunction({
     serviceName,
     functionName,
+    qualifier,
   }) {
     if (functionName) {
-      return [(await this.fcClient.getFunction(serviceName, functionName)).data];
+      return [(await this.fcClient.getFunction(serviceName, functionName, undefined, qualifier)).data];
     }
-    return await this.nextListData('listFunctions', 'functions', [serviceName]);
+    return await this.nextListData('listFunctions', 'functions', [serviceName], qualifier);
   }
 
-  async getFunctionAsyncConfig({ serviceName, functionName }) {
+  async getFunctionAsyncConfig({ serviceName, functionName, qualifier }) {
     try {
-      const { data } = await this.fcClient.getFunctionAsyncConfig(serviceName, functionName);
+      const { data } = await this.fcClient.getFunctionAsyncConfig(serviceName, functionName, qualifier);
 
       const {
         statefulInvocation,
@@ -220,7 +224,7 @@ export default class FcSync {
     }
   }
 
-  async syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string, force: boolean): Promise<string> {
+  async syncCode(serviceName: string, functionName: string, codeZipFileTargetDir: string, force: boolean, qualifier: string): Promise<string> {
     const targetDir = path.resolve(codeZipFileTargetDir);
     const codeDir = path.join(targetDir, `${this.fcClient.accountid}_${this.region}_${serviceName}_${functionName}`);
 
@@ -232,7 +236,7 @@ export default class FcSync {
       await fse.ensureDir(codeDir);
     }
 
-    const { data } = await this.fcClient.getFunctionCode(serviceName, functionName);
+    const { data } = await this.fcClient.getFunctionCode(serviceName, functionName, undefined, qualifier);
     const { url } = data;
     const codeZipFileName = `${this.fcClient.accountid}_${this.region}_${serviceName}_${functionName}.zip`;
 
@@ -251,7 +255,7 @@ export default class FcSync {
     serviceName,
     functionName,
   }) {
-    const triggers = await this.nextListData('listTriggers', 'triggers', [serviceName, functionName]);
+    const triggers = await this.nextListData('listTriggers', 'triggers', [serviceName, functionName], undefined);
 
     return triggers.map((trigger) => ({
       name: trigger.triggerName,
@@ -264,11 +268,11 @@ export default class FcSync {
     }));
   }
 
-  async nextListData(method, dataKey, paths) {
+  async nextListData(method, dataKey, paths, qualifier) {
     const query: any = {};
     let data = [];
     do {
-      const res = (await this.fcClient[method](...paths, query)).data;
+      const res = (await this.fcClient[method](...paths, query, undefined, qualifier)).data;
       data = data.concat(res[dataKey]);
       query.nextToken = res.nextToken;
     } while (query.nextToken);

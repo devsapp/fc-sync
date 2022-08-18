@@ -67,7 +67,7 @@ export default class FcSyncComponent {
   private argsParser(inputs: InputProps) {
     const apts: any = {
       boolean: ['help', 'force'],
-      string: ['region', 'service-name', 'function-name', 'target-dir', 'type'],
+      string: ['region', 'service-name', 'function-name', 'qualifier', 'target-dir', 'type'],
       alias: { help: 'h', access: 'a', force: 'f' },
     };
     const comParse: any = core.commandParse(inputs, apts);
@@ -82,6 +82,7 @@ export default class FcSyncComponent {
     const targetDir: string = argsData['target-dir'];
     const isSyncCode: boolean = type === 'code' || type === 'all';
     const isSyncConfig: boolean = type === 'config' || type === 'all';
+    const qualifier: string = argsData['qualifier'];
 
     return {
       force,
@@ -92,6 +93,7 @@ export default class FcSyncComponent {
       isSyncConfig,
       targetDir,
       access,
+      qualifier,
     };
   }
 }
