@@ -243,11 +243,11 @@ export default class FcSync {
     logger.info(`sync code to ${codeDir}`);
 
     // 下载 code zip file
-    await core.downloadRequest(url, codeDir, { filename: codeZipFileName, extract: false });
+    await core.downloadRequest(url, codeDir, { filename: codeZipFileName, extract: true });
 
-    const zipFileUri = path.join(codeDir, codeZipFileName);
-    await core.unzip(zipFileUri, codeDir);
-    await fse.remove(zipFileUri);
+    // const zipFileUri = path.join(codeDir, codeZipFileName);
+    // await core.unzip(zipFileUri, codeDir);
+    // await fse.remove(zipFileUri);
     return codeDir;
   }
 
