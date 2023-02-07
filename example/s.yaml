@@ -1,13 +1,13 @@
-edition: 1.0.0        #  命令行YAML规范版本，遵循语义化版本（Semantic Versioning）规范
-name: compoent-test   #  项目名称
+edition: 1.0.0
+name: quanxi
+access: quanxi
 
 services:
   component-test: #  服务名称
-    component: ${path(..)}  # 这里引入的是相对路径，正式配置替换成你自己的component名称即可 
+    component: ${path(..)} # 这里引入的是相对路径，正式配置替换成你自己的component名称即可
     # component: devsapp/fc-sync
     props:
-      region: cn-shenzhen
-      serviceName: guide
-      functionName: hhh
+      region: cn-qingdao
+      serviceName: trgjl88
+      functionName: trgjl88
       targetDir: ./
-     

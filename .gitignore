@@ -2,7 +2,6 @@ node_modules
 .s
 
 .DS_Store
-package-lock.json
 example
 .env
 .vscode
