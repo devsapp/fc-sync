@@ -34,7 +34,6 @@ export default class FcSyncComponent {
       throw new Error('region/service-name required.');
     }
     const fcClient = await this.getFcClient(inputs, parsedArgs.region);
-    this.report('fc-sync', 'sync', fcClient.accountid);
 
     const fcSync: any = new FcSync(fcClient, parsedArgs.region);
     const { codeFiles, configYmlPath } = await fcSync.sync(parsedArgs, { force: parsedArgs.force });
@@ -55,13 +54,6 @@ export default class FcSyncComponent {
     }
     const fcCommon = await core.loadComponent('devsapp/fc-common');
     return fcCommon.makeFcClient(inputs);
-  }
-
-  private async report(componentName: string, command: string, uid?: string): Promise<void> {
-    core.reportComponent(componentName, {
-      command,
-      uid,
-    });
   }
 
   private argsParser(inputs: InputProps) {

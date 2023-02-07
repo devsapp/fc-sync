@@ -25,7 +25,7 @@
   "scripts": {
     "start": "npm run watch",
     "watch": "tsc -w",
-    "prebuild": "rm -rf node_modules && rm -rf package-lock.json && npm i && rm -rf dist",
+    "prebuild": "rm -rf node_modules && npm i && rm -rf dist",
     "build": "npm run esbuild",
     "esbuild": "esbuild src/index.ts --bundle --log-level=error --minify --platform=node --format=cjs --target=node10.4 --external:@serverless-devs/core --outfile=dist/index.js",
     "test": "jest --testNamePattern '^(?!Integration::)'",
