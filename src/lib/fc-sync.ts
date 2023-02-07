@@ -176,7 +176,7 @@ export default class FcSync {
     if (functionName) {
       return [(await this.fcClient.getFunction(serviceName, functionName, undefined, qualifier)).data];
     }
-    return await this.nextListData('listFunctions', 'functions', [serviceName], qualifier);
+    return await this.nextListData('listFunctions', 'functions', [serviceName], qualifier, undefined);
   }
 
   async getFunctionAsyncConfig({ serviceName, functionName, qualifier }) {
@@ -255,24 +255,45 @@ export default class FcSync {
     serviceName,
     functionName,
   }) {
-    const triggers = await this.nextListData('listTriggers', 'triggers', [serviceName, functionName], undefined);
+    const triggers = await this.nextListData('listTriggers', 'triggers', [serviceName, functionName], undefined, {
+      'x-fc-enable-eventbridge-trigger': 'enable',
+    });
 
-    return triggers.map((trigger) => ({
-      name: trigger.triggerName,
-      description: trigger.description,
-      sourceArn: trigger.sourceArn || undefined,
-      type: trigger.triggerType,
-      role: trigger.invocationRole || undefined,
-      qualifier: trigger.qualifier || undefined,
-      config: trigger.triggerConfig,
-    }));
+    return triggers.map((trigger) => {
+      if (trigger.triggerType === 'eventbridge') {
+        const eventSourceType = trigger.triggerConfig.eventSourceConfig?.eventSourceType;
+        const deleteKeys = {
+          RocketMQ: ['sourceMNSParameters', 'sourceRabbitMQParameters', 'sourceKafkaParameters'],
+          Default: ['eventSourceConfig'],
+          MNS: ['sourceRabbitMQParameters', 'sourceKafkaParameters', 'sourceRocketMQParameters'],
+          RabbitMQ: ['sourceMNSParameters', 'sourceKafkaParameters', 'sourceRocketMQParameters'],
+          Kafka: ['sourceMNSParameters', 'sourceRabbitMQParameters', 'sourceRocketMQParameters'],
+        };
+
+        const needDeleteKeys = deleteKeys[eventSourceType];
+        if (needDeleteKeys) {
+          for (const needDeleteKey of needDeleteKeys) {
+            delete trigger.triggerConfig.eventSourceConfig?.eventSourceParameters?.[needDeleteKey];
+          }
+        }
+      }
+      return {
+        name: trigger.triggerName,
+        description: trigger.description,
+        sourceArn: trigger.sourceArn || undefined,
+        type: trigger.triggerType,
+        role: trigger.invocationRole || undefined,
+        qualifier: trigger.qualifier || undefined,
+        config: trigger.triggerConfig,
+      };
+    });
   }
 
-  async nextListData(method, dataKey, paths, qualifier) {
+  async nextListData(method, dataKey, paths, qualifier, headers) {
     const query: any = {};
     let data = [];
     do {
-      const res = (await this.fcClient[method](...paths, query, undefined, qualifier)).data;
+      const res = (await this.fcClient[method](...paths, query, headers, qualifier)).data;
       data = data.concat(res[dataKey]);
       query.nextToken = res.nextToken;
     } while (query.nextToken);
