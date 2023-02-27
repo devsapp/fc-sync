@@ -44,16 +44,13 @@ export default class FcSyncComponent {
   }
 
   private async getFcClient(inputs, region): Promise<any> {
-    if (_.isEmpty(inputs.props)) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.props = {};
-    }
-    if (_.isEmpty(inputs.props.region)) {
-      // eslint-disable-next-line no-param-reassign
-      inputs.props.region = region;
-    }
-    const fcCommon = await core.loadComponent('devsapp/fc-common');
-    return fcCommon.makeFcClient(inputs);
+    const fcCore = await core.loadComponent('devsapp/fc-core');
+    return await fcCore.makeFcClient({
+      access: inputs?.project?.access,
+      credentials: inputs?.credentials,
+      region,
+      timeout: 600,
+    });
   }
 
   private argsParser(inputs: InputProps) {

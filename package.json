@@ -23,6 +23,8 @@
     "url": "https://github.com/ServerlessTool/express-alibaba"
   },
   "scripts": {
+    "preln": "rm -rf ~/.s/components/devsapp.cn/devsapp/fc-sync/dist",
+    "ln": "ln -s $(pwd)/dist ~/.s/components/devsapp.cn/devsapp/fc-sync/dist",
     "start": "npm run watch",
     "watch": "tsc -w",
     "prebuild": "rm -rf node_modules && npm i && rm -rf dist",
