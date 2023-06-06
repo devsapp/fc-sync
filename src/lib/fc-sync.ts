@@ -76,9 +76,9 @@ export default class FcSync {
             delete func.initializer;
             delete func.initializationTimeout;
           }
-          if (func.instanceType !== 'g1') {
-            delete func.gpuMemorySize;
-          }
+          // if (func.instanceType !== 'g1') {
+          //   delete func.gpuMemorySize;
+          // }
           if (_.isNil(func.customDNS)) {
             delete func.customDNS;
           }
